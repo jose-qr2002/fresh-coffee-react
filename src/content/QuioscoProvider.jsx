@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { categorias as categoriasDB } from "../data/categorias"
+import axios from 'axios';
+import clienteAxios from '../config/axios';
 
 const QuioscoContext = createContext();
 
@@ -17,6 +19,22 @@ const QuioscoProvider = ({children}) => {
         const nuevoTotal = pedido.reduce( (total, producto) => (producto.precio * producto.cantidad) + total, 0)
         setTotal(nuevoTotal)
     }, [pedido])
+
+    const obtenerCategorias = async () => {
+        try {
+            console.log();
+            
+            const {data} = await clienteAxios('/api/categorias')
+            setCategorias(data.data)
+            setCategoriaActual(data.data[0])
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        obtenerCategorias();
+    }, [])
 
     const handleClickCategoria = id => {
         const categoria = categorias.filter(categoria => categoria.id === id)[0]

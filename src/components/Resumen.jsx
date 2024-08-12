@@ -1,15 +1,19 @@
 import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco"
 import ResumenProducto from "./ResumenProducto";
+import { useAuth } from "../hooks/useAuth";
+
+// Cuando se colocar sin las llaves se espera una exportacion default, con llaves es mas especifico
 
 export default function Resumen() {
     const {pedido, total, handleSubmitNuevaOrden} = useQuiosco();
+    const { logout } = useAuth({});
 
     const comprobarPedido = () => pedido.length === 0;
 
     const handleSubmit = e => {
         e.preventDefault();
-        handleSubmitNuevaOrden()
+        handleSubmitNuevaOrden(logout)
     }
 
     return (

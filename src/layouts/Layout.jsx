@@ -23,10 +23,8 @@ Modal.setAppElement('#root')
 
 export default function Layout() {
 
-    const { user, error, isLoading } = useAuth({middleware: 'auth'})
+    const { isLoading } = useAuth({middleware: 'auth'})
     const { modal } = useQuiosco();
-
-    console.log(user);
     if(isLoading) {
         return (
             <div className="h-screen flex justify-center items-center">

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from "react";
 import { toast } from 'react-toastify';
 import { categorias as categoriasDB } from "../data/categorias"
-import axios from 'axios';
 import clienteAxios from '../config/axios';
 
 const QuioscoContext = createContext();
@@ -73,6 +72,22 @@ const QuioscoProvider = ({children}) => {
         toast.success('Eliminando el Pedido')
     }
 
+    const handleSubmitNuevaOrden = async () => {
+        const token = localStorage.getItem('AUTH_TOKEN')
+        try {
+            await clienteAxios.post('/api/pedidos', {
+                total
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+        } catch (error) {
+            
+        }
+    }
+
     return (
         <QuioscoContext.Provider
             value={{
@@ -87,7 +102,8 @@ const QuioscoProvider = ({children}) => {
                 handleAgregarPedido,
                 handleEditarCantidad,
                 handleEliminarProductoPedido,
-                total
+                total,
+                handleSubmitNuevaOrden
             }}
         
         >{children}</QuioscoContext.Provider>

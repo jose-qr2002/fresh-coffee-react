@@ -9,7 +9,7 @@ export const useAuth = ({middleware, url}) => {
     const token = localStorage.getItem('AUTH_TOKEN')
     const navigate = useNavigate();
 
-    const { data: user, error, mutate } = useSWR('/api/user', () => 
+    const { data: user, error, mutate,isLoading } = useSWR('/api/user', () => 
         clienteAxios('/api/user', {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -69,6 +69,7 @@ export const useAuth = ({middleware, url}) => {
         registro,
         logout,
         user,
-        error
+        error,
+        isLoading
     }
 }

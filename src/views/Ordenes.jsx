@@ -1,6 +1,7 @@
 import useSWR from "swr"
 import clienteAxios from "../config/axios"
 import {formatearDinero} from "../helpers"
+import useQuiosco from "../hooks/useQuiosco";
 
 export default function Ordenes() {
     const token = localStorage.getItem('AUTH_TOKEN');
@@ -11,7 +12,9 @@ export default function Ordenes() {
     })
 
     // USE SWR revalidad lo del fetcher
-    const { data, error, isLoading } = useSWR('/api/pedidos', fetcher)
+    const { data, error, isLoading, mutate } = useSWR('/api/pedidos', fetcher)
+
+    const { handleClickCompletarPedido } = useQuiosco()
 
     if(isLoading) return '...cargando';
     
@@ -49,6 +52,7 @@ export default function Ordenes() {
                     <button
                         type="button" 
                         className='bg-indigo-600  hover:bg-indigo-800 px-5 py-2 rounded uppercase font-bold text-white text-center w-full cursor-pointer'
+                        onClick={() => handleClickCompletarPedido(pedido.id, mutate)}
                     >
                         Completar
                     </button>
